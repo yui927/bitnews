@@ -91,7 +91,7 @@ $(function () {
   //通过form.verify()函数自定义检测规则
   form.verify({
     //\S指不能有空格
-    pwd: [/^[\S]{6,12}&/, "密码必须是6到12位，且不能出现空格"],
+    pwd: [/^[\S]{6,12}$/, "密码必须是6到12位，且不能出现空格"],
     repwd: function (value) {
       //通过形参拿到的是再次确认密码框中的内容
       //还要拿到密码框的内容
@@ -102,5 +102,48 @@ $(function () {
         return "两次密码不一致"
       }
     }
+  })
+
+  //和form一样，layer也是layui内置方法，接收layui的layer方法
+  var layer = layui.layer
+  //监听表单注册事件
+  $("#form-reg").on("submit", function (e) {
+    e.preventDefault()
+    $.post("/api/reguser",
+      {
+        username: $("#form-reg [name=username]").val(),
+        password: $("#form-reg [name=password]").val()
+      }, function (res) {
+         if(res.status!=0){
+           //注册失败
+          return layer.msg(res.message);
+        }
+        //注册成功，res.message是后台写好了返回结果
+        layer.msg(res.message)
+        $("#link_login").click()
+      }
+    )
+  })
+
+  //监听表单登录事件
+  $("#form-login").submit(function(e){
+    e.preventDefault()
+    $.ajax({
+      url:"/api/login",
+      //快速获取表单中的数据
+      data:$(this).serialize(),
+      method:"post",
+      success:function(res){
+        if(res.status!=0){
+          return layer.msg(res.message)
+        }
+        // //登录成功
+        layer.msg(res.message)
+        // 将登录成功之后的token值存到localStorage中,因为只有登录的时候才有这个token值
+        localStorage.setItem("token",res.token)
+        //跳转到后台主页
+        location.href = "./index.html"
+      }
+    })
   })
 })

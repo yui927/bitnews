@@ -24,19 +24,19 @@
         <!-- 登录的div -->
         <div class="login-box">
              <!-- 这是拿过来的表单 -->
-            <form class="layui-form" action=""> 
+            <form class="layui-form" action="" id="form-login"> 
                 <!-- 每个layui-form-item代表一行 -->
                 <div class="layui-form-item">
                     <!-- 绘制小图标 -->
-                    <i class="layui-icon layui-icon-username"></i>   
-                   <!-- lay-verify="required|password" 表单验证判断条件，required是默认的规则，pwd是自定义的规则-->
+                    <i class="layui-icon layui-icon-username"></i>                  
                     <input type="text" name="username" required lay-verify="required" placeholder="请输入用户名"
                         autocomplete="off" class="layui-input">
                 </div>
                 <div class="layui-form-item">
                     <!-- 绘制小图标 -->
                     <i class="layui-icon layui-icon-password"></i>   
-                    <input type="password" name="password" required lay-verify="required|pwd" placeholder="请输入密码"
+                      <!-- lay-verify="required|pwd" 表单验证判断条件，required是默认的规则，pwd是自定义的规则-->
+                    <input type="password" name="password" required lay-verify="required" placeholder="请输入密码"
                         autocomplete="off" class="layui-input">
                 </div>
                 <!-- 在layui中，lay-submit 就是将普通按钮转为提交按钮-->
@@ -50,7 +50,7 @@
         </div>
         <!-- 注册的div -->
         <div class="reg-box">
-            <form class="layui-form" action=""> 
+            <form class="layui-form" action="" id="form-reg"> 
                <!-- 每个layui-form-item代表一行 -->
                <div class="layui-form-item">
                 <!-- 绘制小图标 -->
@@ -83,6 +83,7 @@
 <!-- 验证规则导入layui.all.js -->
     <script src="/assets/lib/layui/layui.all.js"></script>
     <script src="/assets/lib/jquery.js"></script>
+    <script src="/assets/js/baseAPI.js"></script>
     <script src="/assets/js/login.js"></script>
 </body>
 
