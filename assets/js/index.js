@@ -1,6 +1,6 @@
 $(function () {
     //进入页面就调用getUserInfo获取用户基本信息
-    getUserInfo();
+    
     //获取用户基本信息
     function getUserInfo() {
         $.ajax({
@@ -39,6 +39,8 @@ $(function () {
 
         })
     }
+
+    getUserInfo();
 
     //渲染用户的头像
     function renderAvater(user) {

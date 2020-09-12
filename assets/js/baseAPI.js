@@ -14,7 +14,8 @@ $.ajaxPrefilter(function (options) {
     }
   }
 options.complete = function(res){
-  if(res.responseJSON.status === 1 && res.responseJSON.message === '身份认证失败！'){
+  console.log(res);
+  if(res.responseJSON.status === 1 && res.responseJSON.message === '身份认证失败!'){
       //清除token
       localStorage.removeItem("token")
       //跳转回登录界面
