@@ -40,7 +40,11 @@ $(function () {
         })
     }
 
-    getUserInfo();
+    //这里必须把getUserIfno付给window这样window里就有这个方法了，才能正常调用，不然报错与入口函数有关
+    //入口函数这个方法定义的变量和方法不是全局的
+    window.getUserInfo = getUserInfo
+
+    getUserInfo()
 
     //渲染用户的头像
     function renderAvater(user) {

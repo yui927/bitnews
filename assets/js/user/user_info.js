@@ -48,10 +48,12 @@ $(function () {
                 if (res.status !== 0) {
                     return layui.layer.msg(res.message)
                 }
+                
                 //主体页面都是写在iframe里面的
                 //调用父页面的方法，可以使用window.parent
                 // window.parent.getUserInfo()
-                console.log(window.parent)
+
+                window.parent.getUserInfo()
             }
         })
     })
