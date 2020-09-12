@@ -141,6 +141,7 @@ $(function () {
         layer.msg(res.message)
         // 将登录成功之后的token值存到localStorage中,因为只有登录的时候才有这个token值
         localStorage.setItem("token",res.token)
+        // console.log(res.token);
         //跳转到后台主页
         location.href = "./index.html"
       }
