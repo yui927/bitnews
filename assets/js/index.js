@@ -57,6 +57,7 @@ $(function () {
         if (user.user_pic !== null) {
             //有图片头像，显示图片头像，隐藏文字头像
             //attr是对src属性进行设置
+            console.log('------------------')
             $(".layui-nav-img").attr("src", user.user_pic).show()
             $(".text-avater").hide()
         } else {
