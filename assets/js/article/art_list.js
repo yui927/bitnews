@@ -121,6 +121,41 @@ $(function () {
         })
     }
 
+    /*删除列表  模板引擎是动态生成的，所以使用事件委托*/
+    $("tbody").on("click", ".delete-btn", function () {
+        //获取删除按钮的个数，也就是知道了数据个数
+        var len = $(".delete-btn").length
+        var id = $(this).attr("data-id")
+        console.log(id)
+        layer.confirm('确定删除吗?', { icon: 3, title: '提示' }, function (index) {
+            //do something
+            $.ajax({
+                url: `/my/article/delete/${id}`,
+                method: "get",
+                success: function (res) {
+                    if (res.status !== 0) {
+                        return layui.layer.msg(res.message)
+                    }
+                    layui.layer.msg("删除成功！")
+
+                    /*在这里注意一个bug，删除数据的时候，底下页码也要相应做更改
+                     当数据删除完成后，需要判断当前这一页中，是否还有剩余的数据
+                     如果没有剩余的数据了,则让页码值 -1 之后,
+                     再重新调用 initTable 方法
+                    */
+                   
+                    if (len === 1) {
+                        // 如果 len 的值等于1，证明删除完毕之后，页面上就没有任何数据了
+                        // 页码值最小必须是 1
+                        query.pagenum = query.pagenum === 1 ? 1 : query.pagenum - 1
+                    }
+                    //重新渲染列表数据
+                    initTable()
+                }
+            })
+            layer.close(index);
+        });
+    })
 
 
 })
