@@ -1,8 +1,11 @@
 $(function () {
+
+    var laypage = layui.laypage;
+
     //定义一个查询的参数对象,将来请求数据的时候,需要将这个查询参数上传到服务器
     var query = {
         pagenum: 1,//当前的页码值
-        pagesize: 20,//每页显示的条数,默认2条
+        pagesize: 2,//每页显示的条数,默认2条
         cate_id: "",//文章分类的id
         state: ""//文章的状态,已发布和草稿
     }
@@ -49,6 +52,8 @@ $(function () {
                 var textHTML = template("tpl-table", res)
                 //数据添加到tbody中
                 $("tbody").html(textHTML)
+                //渲染数据完成之后调用处理分页函数
+                renderPage(res.total)
             }
         })
     }
@@ -75,15 +80,7 @@ $(function () {
     }
 
     // 筛选区域,这是个表单
-    // $("#selectall").submit(function (e) {
-    //     e.preventDefault()
-    //     var id = $('[name = cate_id]').val()
-    //     var state = $('[name = state]').val()
-    //     query.cate_id = id
-    //     query.state = state
-    //     initTable()
-    // })
-    $('#form-search').on('submit', function(e) {
+    $('#form-search').on('submit', function (e) {
         e.preventDefault()
         // 获取表单中选中项的值
         var cate_id = $('[name=cate_id]').val()
@@ -94,4 +91,36 @@ $(function () {
         // 根据最新的筛选条件，重新渲染表格的数据
         initTable()
     })
+
+    /*分页处理函数*/
+    function renderPage(total) {
+        laypage.render({
+            elem: 'pagebox',//注意，这里的 test1 是 ID，不用加 # 号
+            count: total,//数据总数，从服务端得到，总条数
+            limit: query.pagesize,//每页条数
+            curr: query.pagenum,//起始页
+
+            // limit（条目选项区域）下拉框 、skip（快捷跳页区域）
+            layout: ['count', 'limit', 'prev', 'page', 'next', 'skip'],
+            limits: [2, 3, 5, 7, 10],//limit下拉框显示每页条数
+            /*分页切换的时候，触发jump回调
+            触发jump方法有两种1.初始化的时候，调用分页处理函数
+            2.切换页码的时候，需要调用jump方法*/
+
+            jump: function (obj, first) {
+                console.log(obj.curr)//点击的当前页
+                query.pagenum = obj.curr  //把当前页码赋给query对象
+                console.log(obj.limit)
+                query.pagesize = obj.limit //把每页显示的条数赋给query对象
+                /*如果不做切换直接在这里调用initTable()初始化列表数据，会造成死循环
+                first判断是否是初始化，!first不是首次的话就执行*/
+                if (!first) {
+                    initTable()
+                }
+            }
+        })
+    }
+
+
+
 })
